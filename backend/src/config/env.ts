@@ -29,4 +29,11 @@ function load(): Env {
 }
 
 export const env: Env = load();
-export const corsOrigins = env.CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean);
+// On Vercel, also allow the deployment's own origin(s) so a stale/missing CORS_ORIGIN can't block the UI.
+const vercelOrigins = [process.env.VERCEL_URL, process.env.VERCEL_BRANCH_URL, process.env.VERCEL_PROJECT_PRODUCTION_URL]
+  .filter((h): h is string => Boolean(h))
+  .map((h) => `https://${h}`);
+
+export const corsOrigins = [
+  ...new Set([...env.CORS_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean), ...vercelOrigins]),
+];
