@@ -1,0 +1,14 @@
+# Local MongoDB for development. Start with: docker compose up -d
+# Then point backend/.env at MONGODB_URI=mongodb://127.0.0.1:27017 (the default in .env.example).
+services:
+  mongo:
+    image: mongo:7
+    container_name: finance-dashboard-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
