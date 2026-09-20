@@ -7,7 +7,13 @@
     "backend": {
       "root": "backend",
       "framework": "express",
-      "entrypoint": "src/vercel.ts"
+      "entrypoint": "src/vercel.ts",
+      "buildCommand": "npm run typecheck",
+      "functions": {
+        "src/vercel.ts": {
+          "includeFiles": "backend/node_modules/csv-stringify/dist/cjs/**"
+        }
+      }
     }
   },
   "rewrites": [
